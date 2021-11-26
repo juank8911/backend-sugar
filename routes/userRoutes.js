@@ -54,6 +54,21 @@ module.exports = function(app) {
 
     });
 
+
+    app.post('/validatereg', (req, resp) => {
+        var valide = {
+            correo: req.body.email,
+            movil: req.body.movil,
+            nam_usu: req.body.nam_usu,
+            cedula: req.body.cc,
+        }
+        userDao.validateRegistro(valide, (err, data) => {
+            if (data) resp.status(200).send(data);
+            else if (err) resp.status(500).send(err);
+
+        })
+    })
+
     app.post('/login', (req, resp) => {
         var login = {
             email: req.body.email,

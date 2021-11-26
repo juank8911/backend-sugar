@@ -44,6 +44,14 @@ UserDao.registroMember = (register, callback) => {
 
 }
 
+UserDao.validateRegistro = (valide, callback) => {
+    userModel.findOne({ 'correo': valide.correo }, function(err, user) {
+        console.log(user);
+        if (err) throw err;
+        callback(null, user);
+    });
+};
+
 UserDao.login = (login, callback) => {
 
     userModel.findOne({ 'correo': login.email, 'password': login.pssw }, function(err, user) {
