@@ -45,10 +45,33 @@ UserDao.registroMember = (register, callback) => {
 }
 
 UserDao.validateRegistro = (valide, callback) => {
+    var resp = { 'correo': false, 'movil': false, 'nam_usu': false, 'cedula': false };
     userModel.findOne({ 'correo': valide.correo }, function(err, user) {
+
         console.log(user);
         if (err) throw err;
-        callback(null, user);
+        else if (user == null) {
+            resp.correo = true;
+        }
+        userModel.findOne({ 'movil': valide.movil }, function(err, userMov) {
+            console.log(userMov);
+            if (err) throw err;
+            else if (userMov == null) resp.movil = true;
+            userModel.findOne({ 'nam_usu': valide.nam_usu }, function(err, userNam) {
+                console.log(userNam);
+                if (err) throw err;
+                else if (userNam == null) resp.nam_usu = true;
+                MemModel.findOne({ 'cedula': valide.cedula }, (err, memCed) => {
+                    if (err) throw err;
+                    else if (memCed == null) resp.cedula = true;
+                    callback(null, resp);
+                })
+
+            });
+
+        })
+
+
     });
 };
 
