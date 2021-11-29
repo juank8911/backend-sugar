@@ -3,6 +3,7 @@ const newUs = require('../schemas/UserSchema');
 const newMem = require('../schemas/memberSchema');
 const ciclo = require('../controler/ciclos')
 const mongoose = require('mongoose');
+const { callbackPromise } = require('nodemailer/lib/shared');
 
 module.exports = function(app) {
 
@@ -45,11 +46,9 @@ module.exports = function(app) {
             console.log(data);
             console.log('respuesta res')
             console.log(data.res);
-            if (data.res == 'true' || data.res == true) {
-                response.status(200).send(data);
-            } else {
-                response.status(500).send(err);
-            }
+            if (data.res == true || data.res == 'true') response.status(200).send(data);
+            if (data.res == false || data.res == 'false') response.status(400).send(data);
+            if (err) response.status(500).send(err);
         })
 
     });
@@ -81,4 +80,16 @@ module.exports = function(app) {
         });
     })
 
+    app.post('/perfilup', userDao.validaAdmin, (req, resp) => {
+        var perfil = {
+            cedula: req.body.cc,
+            altura: req.body.altura,
+        }
+        console.log('dentro de perfil')
+        userDao.updatePerfil(perfil, (err, repUp) => {
+            resp.status(200).send('ok')
+        })
+
+
+    });
 }
