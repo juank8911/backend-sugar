@@ -26,7 +26,7 @@ UserDao.registroMember = (register, callback) => {
                 console.log(' member registrado con exito.');
                 console.log(newUser.salt);
                 var usu = {
-                    to: newUser.correo,
+                    to: newUser.email,
                     salt: newUser.salt,
                     texto: 'Bienvenidos'
                 }
@@ -45,25 +45,25 @@ UserDao.registroMember = (register, callback) => {
 }
 
 UserDao.validateRegistro = (valide, callback) => {
-    var resp = { 'correo': false, 'movil': false, 'nam_usu': false, 'cedula': false };
-    userModel.findOne({ 'correo': valide.correo }, function(err, user) {
+    var resp = { 'email': false, 'phone': false, 'namUsu': false, 'identification': false };
+    userModel.findOne({ 'email': valide.email }, function(err, user) {
 
         console.log(user);
         if (err) throw err;
         else if (user == null) {
-            resp.correo = true;
+            resp.email = true;
         }
-        userModel.findOne({ 'movil': valide.movil }, function(err, userMov) {
+        userModel.findOne({ 'phone': valide.phone }, function(err, userMov) {
             console.log(userMov);
             if (err) throw err;
-            else if (userMov == null) resp.movil = true;
-            userModel.findOne({ 'nam_usu': valide.nam_usu }, function(err, userNam) {
+            else if (userMov == null) resp.phone = true;
+            userModel.findOne({ 'namUsu': valide.namUsu }, function(err, userNam) {
                 console.log(userNam);
                 if (err) throw err;
-                else if (userNam == null) resp.nam_usu = true;
-                MemModel.findOne({ 'cedula': valide.cedula }, (err, memCed) => {
+                else if (userNam == null) resp.namUsu = true;
+                MemModel.findOne({ 'identification': valide.identification }, (err, memCed) => {
                     if (err) throw err;
-                    else if (memCed == null) resp.cedula = true;
+                    else if (memCed == null) resp.identification = true;
                     callback(null, resp);
                 })
 
@@ -77,12 +77,12 @@ UserDao.validateRegistro = (valide, callback) => {
 
 UserDao.login = (login, callback) => {
 
-    userModel.findOne({ 'correo': login.email, 'password': login.pssw }, function(err, user) {
+    userModel.findOne({ 'email': login.email, 'password': login.pssw }, function(err, user) {
 
         if (err) { return handleError(err) } else {
             console.log(user);
             console.log('%s %s is a %s.', user);
-            var token = jwt.sign(user.correo, user.nam_usum, user.member, config.jwt_secreto);
+            var token = jwt.sign(user.email, user.namUsum, user.member, config.jwt_secreto);
             callback(null, token)
         }
 

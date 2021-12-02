@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
-    nam_usu: {
+    namUsu: {
         type: String,
         unique: true,
         required: true
     },
     password: String,
-    correo: {
+    email: {
         type: String,
         unique: true,
         required: true
     },
-    movil: {
+    phone: {
         type: Number,
         unique: true,
         required: true
     },
-    val_session: Number,
-    id_facebook: String,
-    id_gmail: String,
+    valSession: Number,
+    idFacebook: String,
+    idGmail: String,
     salt: Number,
     member: {
         type: Number,
