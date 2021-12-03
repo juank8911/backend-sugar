@@ -89,20 +89,16 @@ UserDao.login = (login, callback) => {
         if (err) { return handleError(err) } else {
             console.log(user);
             console.log('%s %s is a %s.', user);
-<<<<<<< HEAD
+
             if (user == null || user == 'null') {
                 console.log('usuario null')
                 callback(null, { 'res': false, 'token': null })
             } else {
                 console.log('usuario find')
-                var member = { correo: user.correo, member: user.member, val_session: user.val_session };
-                var token = jwt.sign(member, config.jwt_secreto);
-                callback(null, { 'res': true, 'token': token })
+                var token = jwt.sign(user.email, user.namUsum, user.member, config.jwt_secreto);
+                callback(null, token)
+
             }
-=======
-            var token = jwt.sign(user.email, user.namUsum, user.member, config.jwt_secreto);
-            callback(null, token)
->>>>>>> b8a20287fe6a24dccca315a9cda2be38b6ea0267
         }
 
     })
