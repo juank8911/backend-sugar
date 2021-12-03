@@ -38,7 +38,10 @@ UserDao.registroMember = (register, callback) => {
                     texto: 'Bienvenidos'
                 }
                 email.sendMail(usu, (err, ressp) => {
-                    if (err) { throw err } else if (ressp) { callback(null, { newUser, 'res': 'true' }); }
+                    if (err) { throw err } else if (ressp) {
+                        var token = jwt.sign(newUser.email, newUser.namUsum, newUser.member, 'locked', config.jwt_secreto);
+                        callback(null, token)
+                    }
                 });
 
             });
@@ -94,10 +97,14 @@ UserDao.login = (login, callback) => {
                 console.log('usuario null')
                 callback(null, { 'res': false, 'token': null })
             } else {
-                console.log('usuario find')
-                var token = jwt.sign(user.email, user.namUsum, user.member, config.jwt_secreto);
-                callback(null, token)
+                if (user.valSession == 1) {
+                    console.log('usuario find')
+                    var token = jwt.sign(user.email, user.namUsum, user.member, 'unlocked', config.jwt_secreto);
+                    callback(null, token)
+                } else {
 
+                    var token = jwt.sign(user.email, user.namUsum, 'locked', config.jwt_secreto);
+                }
             }
         }
 
