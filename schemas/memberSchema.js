@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const memberSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
 
-    cedula: {
+    identification: {
         type: Number,
         unique: true,
         index: true,
         required: true
     },
-    nombre: String,
-    apellidos: String,
-    f_nacimiento: Date,
+    name: String,
+    lastName: String,
+    bornDate: Date,
     created: {
         type: Date,
         default: Date.now
