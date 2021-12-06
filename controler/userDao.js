@@ -49,6 +49,7 @@ UserDao.registroMember = (register, callback) => {
                     } else if (ressp) {
                         console.log('send mail ok');
                         var token = jwt.sign(newUser, 'locked', config.jwt_secreto);
+                        console.log(token);
                         callback(null, token)
                     }
                 });
