@@ -36,7 +36,7 @@ module.exports = function(app) {
                 member: newMemb.identification
             }),
             console.log(newUsr);
-
+        console.log("registr");
         userDao.registroMember({ newUsr, newMemb }, (err, data) => {
             console.log('respuesta del servidor');
             console.log(data);

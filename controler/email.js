@@ -10,8 +10,8 @@ var connection = require('../controler/connection');
 
 let emailModel = {};
 
-emailModel.sendMail = (usu, callback) => {
-    console.log('send mail')
+emailModel.sendMail = function(usu, callback) {
+    console.log('send mail');
     let jConfig = {
         "host": "ai000005.ferozo.com",
         "port": "465",
@@ -22,7 +22,7 @@ emailModel.sendMail = (usu, callback) => {
             "pass": "UnoW2020*@"
         }
     };
-
+    console.log(usu);
     var transporter = nodemailer.createTransport({
         host: "ai000005.ferozo.com",
         port: "465",
@@ -32,34 +32,36 @@ emailModel.sendMail = (usu, callback) => {
             user: "juan.guzman@unoweb.com.co",
             pass: "UnoW2020*@"
         }
-
     });
     //console.lo.log(mail);
-
     // var mailOptions = {
     //             from: mail.remite, //config.from,
     //             to: mail.destino,
     //             subject: mail.asunto,
     //             text: mail.texto
     //      }
-
     var mailOptions = {
-        from: 'Ultimate Sugar', //config.from,
+        from: 'Ultimate Sugar',
         to: usu.to,
         subject: 'BIENVENIDO A ULTIMATE SUGAR - ACTIVACION CUENTA',
         text: usu.texto,
         html: '</br></br><h3>BIENVENIDO A ULTIMATE SUGAR</h3></br><div>Gracias por ser parte de nuesta familia ' +
             'favor ingresa este codigo en la aplicacion: <h2>' + usu.salt + '</h2></div>'
     };
-
-    transporter.sendMail(mailOptions, function(error, info) {
+    console.log('enviando correo');
+    transporter.sendMail(mailOptions, (error, info) => {
+        console.log('eviado correo' + error);
+        console.log('eviado correo' + info);
         if (error) {
+            console.log('Errir de correo');
             console.log(error);
-            callback(null, false);
+            callback(null, { 'res': false });
             //callback(null,'not send');
-        } else {
-            console.lo.log("Email sent");
-            callback(null, true);
+        }
+        if (info) {
+            console.log('eviado ok correo');
+            console.log("Email sent");
+            callback(null, { 'res': true });
         }
     });
 

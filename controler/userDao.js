@@ -43,14 +43,16 @@ UserDao.registroMember = (register, callback) => {
                     texto: 'Bienvenidos'
                 }
                 email.sendMail(usu, (err, ressp) => {
+                    console.log('correo enciado' + err)
+                    console.log('correo enciado' + ressp)
                     if (err) {
                         console.log('send mail fail')
                         throw err
                     } else if (ressp) {
                         console.log('send mail ok');
-                        var token = jwt.sign(newUser, 'locked', config.jwt_secreto);
-                        console.log(token);
-                        callback(null, token)
+                        // var token = jwt.sign(newUser, config.jwt_secreto);
+                        // console.log(token);
+                        callback(null, true)
                     }
                 });
 
@@ -62,6 +64,21 @@ UserDao.registroMember = (register, callback) => {
         callback(null, { 'res': 'false' })
     }
 
+}
+
+UserDao.activa = (act, callback) => {
+    userModel.findOne({ 'email': act.email, 'password': act.pssw, 'salt': act.salt }, function(err, usu) {
+        if (err) { throw err }
+        if (usu) {
+            usu.valSession = 1;
+            userModel.updateOne(usu, (err, respo) => {
+                if (err) { throw err }
+                if (respo) {
+                    callback(null, respo)
+                }
+            })
+        }
+    })
 }
 
 UserDao.validateRegistro = (valide, callback) => {
