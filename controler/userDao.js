@@ -64,6 +64,7 @@ UserDao.registroMember = (register, callback) => {
 }
 
 UserDao.validateRegistro = (valide, callback) => {
+    console.log('valida')
     var resp = { 'email': false, 'phone': false, 'namUsu': false, 'identification': false };
     userModel.findOne({ 'email': valide.email }, function(err, user) {
 
@@ -95,6 +96,7 @@ UserDao.validateRegistro = (valide, callback) => {
 };
 
 UserDao.login = (login, callback) => {
+    console.log('login')
     console.log(login);
     userModel.findOne({ 'email': login.email, 'password': login.pssw }, function(err, user) {
 
@@ -121,6 +123,7 @@ UserDao.login = (login, callback) => {
 }
 
 UserDao.updatePerfil = (perfil, callback) => {
+
     console.log('metoo de update perfil');
     callback(null, perfil);
     updtPerf = new perfModel(register.updtPerf);
