@@ -19,8 +19,11 @@ UserDao.registroMember = (register, callback) => {
     console.log('dentro de register dao')
     try {
         newMemb.save(function(err) {
-            console.log("Error save");
-            if (err) callback(null, { 'err': err, 'res': 'false' });
+
+            if (err) {
+                console.log("Error save");
+                callback(null, { 'err': err, 'res': 'false' });
+            }
 
             console.log('usuario registrado con exito.');
             newUser.save(function(err) {
@@ -44,7 +47,7 @@ UserDao.registroMember = (register, callback) => {
                         console.log('send mail fail')
                         throw err
                     } else if (ressp) {
-                        console.log('send mail fail');
+                        console.log('send mail ok');
                         var token = jwt.sign(newUser, 'locked', config.jwt_secreto);
                         callback(null, token)
                     }

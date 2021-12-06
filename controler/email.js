@@ -11,7 +11,7 @@ var connection = require('../controler/connection');
 let emailModel = {};
 
 emailModel.sendMail = (usu, callback) => {
-
+    console.log('send mail')
     let jConfig = {
         "host": "ai000005.ferozo.com",
         "port": "465",
@@ -67,6 +67,7 @@ emailModel.sendMail = (usu, callback) => {
 
 emailModel.cuentaBlock = (usu, callback) => {
     console.log('Si estamos aui');
+
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         host: "smtp.gmail.com",
