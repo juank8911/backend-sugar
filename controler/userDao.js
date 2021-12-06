@@ -90,7 +90,7 @@ UserDao.validateRegistro = (valide, callback) => {
 };
 
 UserDao.login = (login, callback) => {
-
+    console.log(login);
     userModel.findOne({ 'email': login.email, 'password': login.pssw }, function(err, user) {
 
         if (err) { return handleError(err) } else {
@@ -101,9 +101,9 @@ UserDao.login = (login, callback) => {
                 console.log('usuario null')
                 callback(null, { 'res': false, 'token': null })
             } else {
-                if (user.valSession == 1) {
+                if (user.valSession == 1 || user.valSession == 0) {
                     console.log('usuario find')
-                    var token = jwt.sign(user.email, user.namUsum, user.member, 'unlocked', config.jwt_secreto);
+                    var token = jwt.sign(user.email, user.namUsu, user.member, 'unlocked', config.jwt_secreto);
                     callback(null, token)
                 } else {
 
