@@ -15,9 +15,11 @@ UserDao.registroMember = (register, callback) => {
 
     const newUser = new userModel(register.newUsr);
     const newMemb = new MemModel(register.newMemb);
+    console.log("registrMember Dao");
     console.log('dentro de register dao')
     try {
         newMemb.save(function(err) {
+            console.log("Error save");
             if (err) callback(null, { 'err': err, 'res': 'false' });
 
             console.log('usuario registrado con exito.');
