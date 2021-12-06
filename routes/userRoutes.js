@@ -75,7 +75,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/activaperf', (req, resp) => {
+    app.post('/activaperf', (req, resp) => {
         var act = {
             'email': req.body.email,
             'pass': req.body.pass,
@@ -83,7 +83,12 @@ module.exports = function(app) {
         }
         userDao.active(act, (err, res) => {
             if (err) throw err
-            if (res) callback(null, res);
+            if (res) {
+                userDao.login(act, (error, data) => {
+                    if (data) resp.status(200).send(data);
+                    else if (error) resp.status(500).send(error);
+                });
+            };
         })
 
     })
