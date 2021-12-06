@@ -75,6 +75,19 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/activaperf', (req, resp) => {
+        var act = {
+            'email': req.body.email,
+            'pass': req.body.pass,
+            'salt': req.body.salt
+        }
+        userDao.active(act, (err, res) => {
+            if (err) throw err
+            if (res) callback(null, res);
+        })
+
+    })
+
     app.post('/perfilup', userDao.validaAdmin, (req, resp) => {
         var perfil = {
             cedula: req.body.cc,
