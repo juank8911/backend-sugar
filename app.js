@@ -28,6 +28,7 @@ app.use(bodyparser.urlencoded({ limit: '50mb', extended: true }));
 // app.use(cors());
 app.use(formidable.parse({ keepExtensions: true }));
 app.set('port', config.puerto);
+console.log('configurando');
 
 
 // cron.schedule ( ' * * */2 * * ' , ( ) => {
@@ -162,5 +163,6 @@ require('./routes/userRoutes')(app);
 //app.use(rutas);
 
 app.listen(app.get('port'), () => {
+    console.log('cofigurano puerto');
     console.log('server on port', config.puerto);
 });
