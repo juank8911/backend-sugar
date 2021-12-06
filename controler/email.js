@@ -54,11 +54,11 @@ emailModel.sendMail = (usu, callback) => {
 
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
-            //console.lo.log(error);
+            console.log(error);
             callback(null, false);
             //callback(null,'not send');
         } else {
-            //console.lo.log("Email sent");
+            console.lo.log("Email sent");
             callback(null, true);
         }
     });
