@@ -28,7 +28,7 @@ UserDao.registroMember = (register, callback) => {
             console.log('usuario registrado con exito.');
             newUser.save(function(err) {
                 if (err) {
-                    MemModel.findOneAndDelete({ 'cedula': newMemb.cedula }, (errfn, data) => {
+                    MemModel.findOneAndDelete({ 'identification': newMemb.identification }, (errfn, data) => {
                         if (errfn) throw errfn;
                         callback(null, { 'err': err, 'res': 'false' })
                     });

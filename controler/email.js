@@ -13,24 +13,24 @@ let emailModel = {};
 emailModel.sendMail = function(usu, callback) {
     console.log('send mail');
     let jConfig = {
-        "host": "ai000005.ferozo.com",
-        "port": "465",
-        "secure": true,
-        "auth": {
-            "type": "login",
-            "user": "juan.guzman@unoweb.com.co",
-            "pass": "UnoW2020*@"
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            type: 'login',
+            user: 'devonew1236@gmail.com',
+            pass: 'tsrzwtnsljepyzfa',
         }
     };
     console.log(usu);
     var transporter = nodemailer.createTransport({
-        host: "ai000005.ferozo.com",
-        port: "465",
+        host: 'smtp.gmail.com',
+        port: 465,
         secure: true,
         auth: {
-            type: "login",
-            user: "juan.guzman@unoweb.com.co",
-            pass: "UnoW2020*@"
+            type: 'login',
+            user: 'devonew1236@gmail.com',
+            pass: 'tsrzwtnsljepyzfa',
         }
     });
     //console.lo.log(mail);
@@ -50,8 +50,8 @@ emailModel.sendMail = function(usu, callback) {
     };
     console.log('enviando correo');
     transporter.sendMail(mailOptions, (error, info) => {
-        console.log('eviado correo' + error);
-        console.log('eviado correo' + info);
+        console.log('eviado correo ' + error);
+        console.log('eviado correo ' + info);
         if (error) {
             console.log('Errir de correo');
             console.log(error);
