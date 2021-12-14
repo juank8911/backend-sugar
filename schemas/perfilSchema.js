@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PerfilSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
-    cedula: {
+    identification: {
         type: Number,
         unique: true,
         required: true

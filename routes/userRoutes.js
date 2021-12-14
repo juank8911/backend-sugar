@@ -38,13 +38,8 @@ module.exports = function(app) {
             console.log(newUsr);
         console.log("registr");
         userDao.registroMember({ newUsr, newMemb }, (err, data) => {
-            console.log('respuesta del servidor');
-            console.log(data);
-            console.log('respuesta res');
-            console.log(data.res);
-            if (data.res == true || data.res == 'true') response.status(200).send(data);
-            if (data.res == false || data.res == 'false') response.status(400).send(data);
-            if (err) response.status(500).send(err);
+            if (err) response.status(400).send(err);
+            if (data) response.status(200).send(data);
         })
 
 
@@ -95,7 +90,7 @@ module.exports = function(app) {
 
     app.post('/perfilup', userDao.validaAdmin, (req, resp) => {
         var perfil = {
-            cedula: req.body.cc,
+            identification: req.body.id,
             altura: req.body.altura,
         }
         console.log('dentro de perfil')

@@ -306,76 +306,7 @@ emailModel.sendMailCita = (mail, callback) => {
 // };
 
 
-emailModel.senCorreos = (mails, callback) => {
-    if (connection) {
-        console.log('/*/*/*/*/*/*/*/*/*/*');
-        console.log(mails);
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                // xoauth2: xoauth2.createXOAuth2Generator({
-                type: 'OAuth2',
-                user: config.user,
-                clientId: config.clientId,
-                clientSecret: config.clientSecret,
-                refreshToken: config.refreshToken,
-                accessToken: config.accessToken
-                    // })
-
-            }
-        });
-
-        // console.log(mail);
-        let send = [];
-        let cont = 1;
-        // console.log(mails.length);
-        if (mails.length >= 0) {
-            for (var i = 0; i < mails.length; i++) {
-                let mail = mails[i];
-                var mailOptions = {
-
-                    from: 'PREVENIR EXPRESS NUEVA', //config.from,
-                    to: 'contactoprevenir@gmail.com',
-                    subject: mail.asunto,
-                    text: mail.mensaje + " " + mail.mail,
-                    html: '<img src="http://cdn.prevenirexpress.com:3000/avatars/banner1a.png" alt="prevenir logo" width="60%" height="40%"> <br/>' +
-                        '<h2>Nombre: ' + mail.name + '</h2> <br/>' +
-                        '<h2>Cedula:' + mail.cedu + '</h2> <br/>' +
-                        '<h2>Email:' + mail.mail + '</h2> <br/>' +
-                        '<h2>tel:' + mail.tel + '</h2> <br/>' +
-                        '<h2>Municipio:' + mail.muni + '</h2> <br/>' +
-                        '<h2>Departamento:' + mail.depa + '</h2> <br/>' +
-                        'Señor@(es): Prevenir Express' +
-                        '<br/><div> ' + mail.mensaje + ' <div>'
-                };
-
-                transporter.sendMail(mailOptions, function(error, info) {
-                    if (error) {
-                        // console.log(error);
-                        send.push({ send: 'no' });
-                        //callback(null,'not send');
-                    } else {
-                        // console.log("Email sent");
-                        send.push({ send: 'si', mail: mail.mail });
-                        // console.log(cont);
-                        if (cont == mails.length) {
-                            callback(null, send);
-                        }
-                        cont++;
-                    }
-                });
-
-
-            }
-
-
-        }
-    }
-
-};
+emailModel.senCorreos = (mails, callback) => {};
 
 // emailModel.prueba1 = async(callback) => {
 

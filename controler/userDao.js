@@ -29,8 +29,8 @@ UserDao.registroMember = (register, callback) => {
             newUser.save(function(err) {
                 if (err) {
                     MemModel.findOneAndDelete({ 'identification': newMemb.identification }, (errfn, data) => {
-                        if (errfn) throw errfn;
-                        callback(null, { 'err': err, 'res': 'false' })
+                        if (errfn) callback(null, { 'err': err, 'res': 'false' });
+                        if (data) callback(null, { 'data': data, 'res': 'true' });
                     });
 
                 }
@@ -52,7 +52,7 @@ UserDao.registroMember = (register, callback) => {
                         console.log('send mail ok');
                         // var token = jwt.sign(newUser, config.jwt_secreto);
                         // console.log(token);
-                        callback(null, true)
+                        callback(null, ressp)
                     }
                 });
 
@@ -145,7 +145,7 @@ UserDao.updatePerfil = (perfil, callback) => {
     console.log('metoo de update perfil');
     callback(null, perfil);
     updtPerf = new perfModel(register.updtPerf);
-    if (updtPerf.findOne({ 'cedula': perfil.cedula })) {
+    if (updtPerf.findOne({ 'identficacion': perfil.identification })) {
 
     } else {
         updtPerf.save();
