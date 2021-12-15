@@ -116,10 +116,17 @@ UserDao.validateRegistro = (valide, callback) => {
 UserDao.login = (login, callback) => {
     console.log('login')
     console.log(login);
-    userModel.findOne({ 'email': login.email, 'password': login.pssw }, function(err, user) {
 
-        if (err) { return handleError(err) } else {
-            console.log(user);
+    userModel.findOne({ 'email': login.email, 'password': login.pssw }, function(err, user) {
+        console.log('error ' + err);
+        console.log('user ' + user);
+        if (err) {
+            console.log(err);
+            callback(null, err)
+        }
+
+        if (user) {
+            // console.log(err);
             console.log('%s %s is a %s.', user);
 
             if (user == null || user == 'null') {
@@ -128,10 +135,13 @@ UserDao.login = (login, callback) => {
             } else {
                 if (user.valSession == 1 || user.valSession == 0) {
                     console.log('usuario find')
-                    var token = jwt.sign(user.email, user.namUsu, user.member, 'unlocked', config.jwt_secreto);
+                    var lock = false;
+                    var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
+                    var token = jwt.sign(usu, config.jwt_secreto);
                     callback(null, token)
                 } else {
-
+                    lock = true;
+                    var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
                     var token = jwt.sign(user.email, user.namUsum, 'locked', config.jwt_secreto);
                 }
             }
