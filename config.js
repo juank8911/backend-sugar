@@ -2,7 +2,7 @@ module.exports = {
     // domain: 'localhost',
     domain: '200.58.100.92',
     // domain:'localhost',
-    puerto: process.env.PORT || 81,
+    puerto: process.env.PORT || 8080,
     // nombredb: 'prevenirexpres',
     // host: 'localhost',
     // host: '157.230.49.162',
