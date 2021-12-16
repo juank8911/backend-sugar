@@ -94,9 +94,18 @@ UserDao.activa = (act, callback) => {
                 if (respo) {
                     console.log('usuario actualizado')
                     var lock = false;
-                    var user = { usu: usua.email, usernam: usua.namUsu, member: usua.member, 'loked': 'unlock' }
-                    var token = jwt.sign(user, config.jwt_secreto);
-                    callback(null, { 'res': true, 'token': token })
+                    console.log(usua.member)
+                    MemModel.findOne({ 'identification': usua.member }, (err, memb) => {
+                        console.log('memModel find')
+                        console.log(memb)
+                        if (err) { throw err }
+                        if (memb) {
+                            var user = { usu: usua.email, usernam: usua.namUsu, name: memb.name, last: memb.last, member: usua.member, 'loked': 'unlock' }
+                            var token = jwt.sign(user, config.jwt_secreto);
+                            callback(null, { 'res': true, 'token': token })
+                        }
+                    })
+
 
 
                 }
@@ -155,12 +164,17 @@ UserDao.login = (login, callback) => {
                 console.log('usuario null')
                 callback(null, { 'res': false, 'token': null })
             } else {
-                if (user.valSession == 1 || user.valSession == 0) {
+                if (user.valSession == 1 || user.valSession == 1) {
                     console.log('usuario find')
                     var lock = false;
-                    var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
-                    var token = jwt.sign(usu, config.jwt_secreto);
-                    callback(null, { 'res': true, 'token': token })
+                    MemModel.findOne({ 'identification': usua.member }, (err, memb) => {
+                        if (err) { throw err }
+                        if (memb) {
+                            var user = { usu: usua.email, usernam: usua.namUsu, name: memb.name, last: memb.last, member: usua.member, 'loked': lock }
+                            var token = jwt.sign(user, config.jwt_secreto);
+                            callback(null, { 'res': true, 'token': token })
+                        }
+                    })
                 } else {
                     lock = true;
                     var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': unlock }
