@@ -136,7 +136,7 @@ UserDao.login = (login, callback) => {
                     var lock = false;
                     var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
                     var token = jwt.sign(usu, config.jwt_secreto);
-                    callback(null, token)
+                    callback(null, { 'res': true, 'token': token })
                 } else {
                     lock = true;
                     var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
