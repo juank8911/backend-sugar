@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/verdeneruda/suggar-backend#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.1.6",
     "express": "^4.17.1",
     "express-form-data": "^2.0.17",
     "jsonwebtoken": "^8.5.1",
@@ -28,6 +29,8 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "random-letter": "^1.0.1",
     "random-number": "0.0.9",
+    "react": "^17.0.2",
+    "react-native": "^0.66.4",
     "xoauth2": "^1.2.0"
   }
 }

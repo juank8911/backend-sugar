@@ -70,20 +70,30 @@ module.exports = function(app) {
         });
     });
 
+    app.post('/userup', (req, resp) => {
+        var usu = {
+            'id': req.body.id,
+            'namUsu': req.body.namUsu,
+            'email': req.body.email,
+            'phone': req.body.phone,
+            'name': req.body.name,
+            'last': req.body.last,
+            'bornDate': req.body.date
+        }
+        userDao.userUp(usu, (err, res) => {
+            if (err) { resp.status(400).send(err) }
+            if (res) { resp.status(200).send(res) }
+        })
+    })
+
     app.post('/activaperf', (req, resp) => {
         var act = {
             'email': req.body.email,
-            'pass': req.body.pass,
             'salt': req.body.salt
         }
-        userDao.active(act, (err, res) => {
-            if (err) throw err
-            if (res) {
-                userDao.login(act, (error, data) => {
-                    if (data) resp.status(200).send(data);
-                    else if (error) resp.status(500).send(error);
-                });
-            };
+        userDao.activa(act, (err, res) => {
+            if (err) { resp.status(500).send(error); }
+            if (res) { resp.status(200).send(res) }
         })
 
     })

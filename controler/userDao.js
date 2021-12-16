@@ -66,15 +66,39 @@ UserDao.registroMember = (register, callback) => {
 
 }
 
+UserDao.userUp = (usuUp, callback) => {
+    userModel.findOneAndUpdate(usup, (err, user) => {
+        if (err) throw err;
+        if (user) {
+            console.log(user);
+            callback(null, user);
+        }
+    })
+}
+
 UserDao.activa = (act, callback) => {
-    userModel.findOne({ 'email': act.email, 'password': act.pssw, 'salt': act.salt }, function(err, usu) {
-        if (err) { throw err }
-        if (usu) {
-            usu.valSession = 1;
-            userModel.updateOne(usu, (err, respo) => {
+    console.log('activa perfil');
+    console.log(act)
+    userModel.findOne({ 'email': act.email }, function(err, usua) {
+        console.log(usua);
+        if (err) { throw err } else {
+            if (usua == null || usua == 'null') {
+                console.log('usuario no encontrado')
+                callback(null, { 'usuario': null, 'activate': false })
+            }
+            usua.valSession = 1;
+            userModel.updateOne(usua, (err, respo) => {
+                console.log(respo)
+
                 if (err) { throw err }
                 if (respo) {
-                    callback(null, respo)
+                    console.log('usuario actualizado')
+                    var lock = false;
+                    var user = { usu: usua.email, usernam: usua.namUsu, member: usua.member, 'loked': 'unlock' }
+                    var token = jwt.sign(user, config.jwt_secreto);
+                    callback(null, { 'res': true, 'token': token })
+
+
                 }
             })
         }
@@ -139,8 +163,9 @@ UserDao.login = (login, callback) => {
                     callback(null, { 'res': true, 'token': token })
                 } else {
                     lock = true;
-                    var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': lock }
-                    var token = jwt.sign(user.email, user.namUsum, 'locked', config.jwt_secreto);
+                    var usu = { user: user.email, usernam: user.namUsu, member: user.member, 'loked': unlock }
+                    var token = jwt.sign(usu, config.jwt_secreto);
+                    callback(null, { 'res': true, 'token': token })
                 }
             }
         }
