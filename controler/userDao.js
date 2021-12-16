@@ -123,9 +123,7 @@ UserDao.login = (login, callback) => {
         if (err) {
             console.log(err);
             callback(null, err)
-        }
-
-        if (user) {
+        } else {
             // console.log(err);
             console.log('%s %s is a %s.', user);
 
