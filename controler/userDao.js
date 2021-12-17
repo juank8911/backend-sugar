@@ -66,29 +66,55 @@ UserDao.userUp = async(updt, callback) => {
     console.log(updt);
     var usuaup = updt.usuup;
     var membeup = updt.membup;
+    $set = {
+        phone: usuaup.phone,
+    };
+    $setMem = {
+        name: membeup.name,
+        lastName: membeup.last,
+    };
+    console.log($set);
+    console.log($setMem);
     var filter = { member: usuaup.id };
 
-    let doc = await userModel.findOneAndUpdate(filter, usuaup);
-    console.log(doc);
-    // userModel.findOneAndUpdate({ usuaup }, (errus, user) => {
-    //     if (errus) throw err;
-    //     else {
-    //         console.log(user);
-    //         console.log("actualiza member");
-    //         console.log(memup);
-    //         MemModel.findOneAndUpdate(membeup, (errmem, memb) => {
-    //             if (errmem) throw errmem;
-    //             else {
-    //                 if (memb == nul || memb == "null") {
-    //                     callback(null, { upd: false, res: "member dont found" });
-    //                 } else {
-    //                     callback(null, { upd: true, res: "member update" });
-    //                 }
-    //             }
-    //         });
-    //     }
-    // });
+    userModel.updateOne(
+        filter, // <-- find stage
+
+        ($set = {
+            phone: usuaup.phone,
+        }),
+        (err, resul) => {
+            console.log(err);
+            console.log(resul);
+            MemModel.updateOne({ identification: membeup.identification },
+                ($setm = {
+                    name: membeup.name,
+                    lastName: membeup.last,
+                })
+            ).then((result) => {
+                callback(null, { res: true, result: result });
+            });
+        }
+    );
 };
+// userModel.findOneAndUpdate({ usuaup }, (errus, user) => {
+//     if (errus) throw err;
+//     else {
+//         console.log(user);
+//         console.log("actualiza member");
+//         console.log(memup);
+//         MemModel.findOneAndUpdate(membeup, (errmem, memb) => {
+//             if (errmem) throw errmem;
+//             else {
+//                 if (memb == nul || memb == "null") {
+//                     callback(null, { upd: false, res: "member dont found" });
+//                 } else {
+//                     callback(null, { upd: true, res: "member update" });
+//                 }
+//             }
+//         });
+//     }
+// });
 
 UserDao.activa = (act, callback) => {
     console.log("activa perfil");
@@ -134,40 +160,6 @@ UserDao.activa = (act, callback) => {
                             callback(null, { res: true, token: token });
                         }
                     });
-
-                    // userModel.updateOne(usua.id,
-                    //     (err, respo) => {
-                    //     console.log(respo);
-
-                    //     if (err) {
-                    //         console.log("err update");
-                    //         throw err;
-                    //     }
-                    //     if (respo) {
-                    //         console.log("usuario actualizado");
-                    //         var lock = false;
-                    //         console.log(usua.member);
-                    //         MemModel.findOne({ identification: usua.member }, (err, memb) => {
-                    //             console.log("memModel find");
-                    //             console.log(memb);
-                    //             if (err) {
-                    //                 throw err;
-                    //             }
-                    //             if (memb) {
-                    //                 var user = {
-                    //                     usu: usua.email,
-                    //                     usernam: usua.namUsu,
-                    //                     name: memb.name,
-                    //                     last: memb.last,
-                    //                     member: usua.member,
-                    //                     loked: "unlock",
-                    //                 };
-                    //                 var token = jwt.sign(user, config.jwt_secreto);
-                    //                 callback(null, { res: true, token: token });
-                    //             }
-                    //         });
-                    //     }
-                    // });
                 });
         }
     });
