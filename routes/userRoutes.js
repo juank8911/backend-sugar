@@ -67,6 +67,13 @@ module.exports = function(app) {
         });
     });
 
+    app.get("/userdata", userDao.validaAdmin, (req, res) => {
+        userDao.userData((err, usu) => {
+            if (err) res.status(400).send(err);
+            if (usu) res.status(200).send(usu);
+        });
+    });
+
     app.put("/userup", userDao.validaAdmin, async(req, resp) => {
         var usuup = {
             id: req.body.id,

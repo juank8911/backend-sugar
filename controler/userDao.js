@@ -97,24 +97,6 @@ UserDao.userUp = async(updt, callback) => {
         }
     );
 };
-// userModel.findOneAndUpdate({ usuaup }, (errus, user) => {
-//     if (errus) throw err;
-//     else {
-//         console.log(user);
-//         console.log("actualiza member");
-//         console.log(memup);
-//         MemModel.findOneAndUpdate(membeup, (errmem, memb) => {
-//             if (errmem) throw errmem;
-//             else {
-//                 if (memb == nul || memb == "null") {
-//                     callback(null, { upd: false, res: "member dont found" });
-//                 } else {
-//                     callback(null, { upd: true, res: "member update" });
-//                 }
-//             }
-//         });
-//     }
-// });
 
 UserDao.activa = (act, callback) => {
     console.log("activa perfil");
@@ -265,6 +247,16 @@ UserDao.updatePerfil = (perfil, callback) => {
     }
 };
 
+UserDao.userData = (req, res) => {
+    var token =
+        req.body.token || req.query.token || req.headers["x-access-token"];
+    if (token) {
+        jwt.verify(token, config.jwt_secreto, (err, decoded) => {
+            if (err) callback(null, err);
+            if (decoded) callback(null, decoded);
+        });
+    }
+};
 UserDao.validaAdmin = (req, res, next) => {
     var token =
         req.body.token || req.query.token || req.headers["x-access-token"];
