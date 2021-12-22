@@ -2,6 +2,7 @@ const conection = require("../controler/connection");
 const userModel = require("../schemas/UserSchema");
 const MemModel = require("../schemas/memberSchema");
 const perfModel = require("../schemas/perfilSchema");
+const settDao = require("../controler/settingsDao");
 const email = require("../controler/email");
 const config = require("../config");
 const jwt = require("jsonwebtoken");
@@ -21,7 +22,7 @@ UserDao.registroMember = (register, callback) => {
       }
 
       console.log("usuario registrado con exito.");
-      newUser.save(function (err) {
+      newUser.save(function (err, memRes) {
         if (err) {
           console.log(err);
           MemModel.findOneAndDelete(
@@ -49,7 +50,13 @@ UserDao.registroMember = (register, callback) => {
               console.log("send mail ok");
               // var token = jwt.sign(newUser, config.jwt_secreto);
               // console.log(token);
-              callback(null, ressp);
+              settDao.startSettings(memRes, (err, resSet) => {
+                if (err) callback(null, err);
+                else {
+                  console.log(resSet);
+                  callback(null, ressp);
+                }
+              });
             }
           });
         }
