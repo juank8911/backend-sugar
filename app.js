@@ -1,54 +1,25 @@
-let express = require('express');
-let morgan = require('morgan');
-let bodyparser = require('body-parser');
-// let cors = require('cors');
-let jwt = require('jsonwebtoken');
-let formidable = require('express-form-data');
-// var  cron  = require ('node-cron');
-// var horas = require('./models/eventos');
-var moment = require('moment');
-// var conection = require('/controler/connection.js')
-// var eject = require('./models/ejecucion');
+let express = require("express");
+let morgan = require("morgan");
+let bodyparser = require("body-parser");
+let jwt = require("jsonwebtoken");
+let formidable = require("express-form-data");
+var moment = require("moment");
 
 //configuracion de la aplicacion
-let config = require('./config');
-// let user = require('./routes/userRoutes');
-// let jwtRou = require('./routes/jwtRoutes');
-// let ses = require('./models/jwt');
-// let con = require('./models/user');
+let config = require("./config");
 
 var app = express();
 //middleawares
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 // app.use(express.static('src/public' ));
-app.use(bodyparser.json({ limit: '50mb' }));
+app.use(bodyparser.json({ limit: "50mb" }));
 // app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyparser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
 // app.use(cors());
 app.use(formidable.parse({ keepExtensions: true }));
-app.set('port', config.puerto);
-console.log('configurando');
-
-
-// cron.schedule ( ' * * */2 * * ' , ( ) => {
-//   console.log ( ' ejecutando cada minuto 1, 2, 4 y 5 ' ) ;
-//   // horas.citaHistorial((err,res)=>{
-//   //   console.log(res+' ok');
-//   // });
-// } ) ;
-
-// ARREGLAR LOS CAMPOS QUE SOLICITA EN EL CAMBIO EL QUERY Y DEMAS OPCIONES
-//  cron.schedule(' 0 30 * * * *', () => {
-//    console.log('running a task every 30 minutes');
-//    console.log('notificaciones');
-//    horas.citaHistorial((err,res)=>{
-//      horas.citaHistorialM((err,resp)=>{
-//        console.log(res+' ok '+resp);
-//      });
-
-//     });
-//  });
+app.set("port", config.puerto);
+console.log("configurando");
 
 // cron.schedule('* */1 * * *', () => {
 // //   horas.citaHistorial((err,res)=>{
@@ -65,69 +36,54 @@ console.log('configurando');
 //      });
 //    });
 
-//    console.log('corre cada minuto * */1 * * *');
-//    eject.notificaCitaHumanos((err,row)=>{
-//      eject.notiCitasPeluditos((err,row)=>{
-//        console.log('Citas notificadas');
-//      });
-//    });
-// });
-//
-// cron.schedule('22 * * * *', () => {
-//   console.log('corre cada hora min 22 22 * * * *');
-//   console.log(moment().format('YYYY-MM-DD hh:mm:ss a'));
-// });
-
-//REACTIVAR PARA ARREGLAR
-// cron.schedule('0 * * * *', () => {
-//   console.log('corre cada hora min 0 0 * * * *');
-//   console.log(moment().format('YYYY-MM-DD hh:mm:ss a'));
-//   eject.notificaCitaHumanos((err,row)=>{
-//     eject.notiCitasPeluditos((err,rows)=>{
-//       console.log('Citas notificadas');
-//     });
-//   });
-
-// });
-
-// cron.schedule('* * 1 * *', () => {
-//   console.log('corre cada hora * * 1 * * ');
-//   console.log(moment().format('YYYY-MM-DD hh:mm:ss a'));
-// });
-
 //Permisos CORS para acceso a la Api
-app.all('*', function(req, res, next) {
-    /**
-     * Response settings
-    // //  * @type {Object}
-    //  */
-    var responseSettings = {
-        "AccessControlAllowOrigin": req.headers.origin,
-        "AccessControlAllowHeaders": "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
-        "AccessControlAllowMethods": "POST, GET, PUT, DELETE, OPTIONS",
-        "AccessControlAllowCredentials": true
-    };
+app.all("*", function (req, res, next) {
+  /**
+                 * Response settings
+                // //  * @type {Object}
+                //  */
+  var responseSettings = {
+    AccessControlAllowOrigin: req.headers.origin,
+    AccessControlAllowHeaders:
+      "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
+    AccessControlAllowMethods: "POST, GET, PUT, DELETE, OPTIONS",
+    AccessControlAllowCredentials: true,
+  };
 
-    /**
-     * Headers
-     */
-    res.header("Access-Control-Allow-Credentials", responseSettings.AccessControlAllowCredentials);
-    res.header("Access-Control-Allow-Origin", responseSettings.AccessControlAllowOrigin);
-    res.header("Access-Control-Allow-Headers", (req.headers['access-control-request-headers']) ? req.headers['access-control-request-headers'] : "x-requested-with");
-    res.header("Access-Control-Allow-Methods", (req.headers['access-control-request-method']) ? req.headers['access-control-request-method'] : responseSettings.AccessControlAllowMethods);
-    if ('OPTIONS' == req.method) {
-        res.send(200);
-    } else {
-        next();
-    }
-
-
+  /**
+   * Headers
+   */
+  res.header(
+    "Access-Control-Allow-Credentials",
+    responseSettings.AccessControlAllowCredentials
+  );
+  res.header(
+    "Access-Control-Allow-Origin",
+    responseSettings.AccessControlAllowOrigin
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    req.headers["access-control-request-headers"]
+      ? req.headers["access-control-request-headers"]
+      : "x-requested-with"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    req.headers["access-control-request-method"]
+      ? req.headers["access-control-request-method"]
+      : responseSettings.AccessControlAllowMethods
+  );
+  if ("OPTIONS" == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
 });
 
 let rutas = express.Router();
 //rutas de el servidor
 //rutas.route('/login').post(ses.login);
-require('./routes/userRoutes')(app);
+require("./routes/userRoutes")(app);
 // require('./routes/pruebasRoutes')(app);
 // require('./routes/comentRoutes')(app);
 // require('./routes/medicoRoutes')(app);
@@ -162,7 +118,26 @@ require('./routes/userRoutes')(app);
 // require('./routes/eventsMascRoutes')(apps);
 //app.use(rutas);
 
-app.listen(app.get('port'), () => {
-    console.log('cofigurano puerto');
-    console.log('server on port', config.puerto);
+const server = app.listen(app.get("port"), () => {
+  console.log("cofigurano puerto");
+  console.log("server on port", config.puerto);
+});
+
+const io = require("socket.io")(server);
+
+io.on("connection", (socket) => {
+  console.log("new User Connected");
+
+  socket.username = "anonimo"; //cargar nonbe de usuario;
+
+  socket.on("new_message", (data) => {
+    io.soket.emit("new message", {
+      message: data.massage,
+      username: socket.username,
+    });
+  });
+
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typing", { username: socket.username });
+  });
 });

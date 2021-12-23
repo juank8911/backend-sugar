@@ -260,7 +260,7 @@ UserDao.updatePerfil = (perfil, callback) => {
   }
 };
 
-UserDao.userData = (req, res) => {
+UserDao.userData = (req, callback) => {
   var token =
     req.body.token || req.query.token || req.headers["x-access-token"];
   if (token) {
