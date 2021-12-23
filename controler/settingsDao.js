@@ -50,4 +50,21 @@ settingsDao.startSettings = (mem, callback) => {
   });
 };
 
+settingsDao.getSettings = (mem, callback) => {
+  settModel.findById({ membre: mem._id }, (err, setr) => {
+    var res;
+    if (err) {
+      throw err;
+    } else {
+      if (setr == null || setr == "null") {
+        res = { res: false, settings: null };
+      } else {
+        res = { res: true, settings: setr };
+      }
+
+      callback(null, res);
+    }
+  });
+};
+
 module.exports = settingsDao;

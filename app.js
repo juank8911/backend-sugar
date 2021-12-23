@@ -39,9 +39,9 @@ console.log("configurando");
 //Permisos CORS para acceso a la Api
 app.all("*", function (req, res, next) {
   /**
-                 * Response settings
-                // //  * @type {Object}
-                //  */
+                   * Response settings
+                  // //  * @type {Object}
+                  //  */
   var responseSettings = {
     AccessControlAllowOrigin: req.headers.origin,
     AccessControlAllowHeaders:

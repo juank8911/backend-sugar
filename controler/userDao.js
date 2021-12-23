@@ -196,7 +196,7 @@ UserDao.validateRegistro = (valide, callback) => {
 UserDao.login = (login, callback) => {
   console.log("login");
   console.log(login);
-
+  var setting;
   userModel.findOne(
     { email: login.email, password: login.pssw },
     function (err, user) {
@@ -221,6 +221,13 @@ UserDao.login = (login, callback) => {
                 throw err;
               }
               if (memb) {
+                settDao.getSettings(memb, (errset, sett) => {
+                  if (errset) {
+                    throw err;
+                  } else {
+                    setting = sett;
+                  }
+                });
                 var user = {
                   usu: usua.email,
                   usernam: usua.namUsu,
@@ -228,6 +235,7 @@ UserDao.login = (login, callback) => {
                   last: memb.last,
                   member: usua.member,
                   loked: lock,
+                  settings: setting,
                 };
                 var token = jwt.sign(user, config.jwt_secreto);
                 callback(null, { res: true, token: token });
@@ -240,6 +248,7 @@ UserDao.login = (login, callback) => {
               usernam: user.namUsu,
               member: user.member,
               loked: lock,
+              settings: setting,
             };
             var token = jwt.sign(usu, config.jwt_secreto);
             callback(null, { res: true, token: token });
