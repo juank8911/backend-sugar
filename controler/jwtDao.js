@@ -33,7 +33,7 @@ jwtDao.generateTokenUser = (usuar, callback) => {
                                 perfil: retpre,
                             };
                             // console.log(user);
-                            var jwtToken = jwt.sign(user, config.clientSecret);
+                            var jwtToken = jwt.sign(user, config.jwt_secreto);
                             // console.log("token");
                             // console.log(jwtToken);
                             callback(null, jwtToken);
@@ -43,6 +43,26 @@ jwtDao.generateTokenUser = (usuar, callback) => {
             });
         }
     });
+};
+
+jwtDao.validaAdmin = (req, res, next) => {
+    var token =
+        req.body.token || req.query.token || req.headers["x-access-token"];
+    console.log("valida Admin");
+    console.log(token);
+    if (token) {
+        jwt.verify(token, config.jwt_secreto, (err, decoded) => {
+            if (err) {
+                return res.status(403).send({
+                    mensaje: "error al validar usuario, inicie sesion de nuevo",
+                });
+            }
+
+            req.decoded = decoded;
+            console.log(decoded);
+            next();
+        });
+    }
 };
 
 module.exports = jwtDao;

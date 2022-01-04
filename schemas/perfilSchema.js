@@ -4,14 +4,13 @@ const PerfilSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
     height: {
         type: String,
-        unique: true,
         required: true,
     },
     eyes: {
         type: String,
         required: true,
     },
-    Contex: {
+    contex: {
         type: String,
         required: true,
     },

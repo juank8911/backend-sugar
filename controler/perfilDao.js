@@ -9,7 +9,7 @@ perfilDao.creaPerfil = (perf, callback) => {
     let newPerf = new perfilModel({
         height: perf.height + '"',
         eyes: perf.eyes,
-        Contex: perf.contex,
+        contex: perf.contex,
         gender: perf.gender,
         user: new ObjectId(perf.user),
         about: perf.about,

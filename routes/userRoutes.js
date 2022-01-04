@@ -1,4 +1,5 @@
 const userDao = require("../controler/userDao");
+const jwtDao = require("../controler/jwtDao");
 const newUs = require("../schemas/UserSchema");
 const newMem = require("../schemas/memberSchema");
 const ciclo = require("../controler/ciclos");
@@ -67,14 +68,14 @@ module.exports = function(app) {
         });
     });
 
-    app.get("/userdata", userDao.validaAdmin, (req, res) => {
+    app.get("/userdata", jwtDao.validaAdmin, (req, res) => {
         userDao.userData((err, usu) => {
             if (err) res.status(400).send(err);
             if (usu) res.status(200).send(usu);
         });
     });
 
-    app.put("/userup", userDao.validaAdmin, async(req, resp) => {
+    app.put("/userup", jwtDao.validaAdmin, async(req, resp) => {
         var usuup = {
             id: req.body.id,
             namUsu: req.body.namUsu,
@@ -113,14 +114,14 @@ module.exports = function(app) {
         });
     });
 
-    app.post("/perfilup", userDao.validaAdmin, (req, resp) => {
-        var perfil = {
-            identification: req.body.id,
-            altura: req.body.altura,
-        };
-        console.log("dentro de perfil");
-        userDao.updatePerfil(perfil, (err, repUp) => {
-            resp.status(200).send("ok");
-        });
-    });
+    // app.post("/perfilup", userDao.validaAdmin, (req, resp) => {
+    //     var perfil = {
+    //         identification: req.body.id,
+    //         altura: req.body.altura,
+    //     };
+    //     console.log("dentro de perfil");
+    //     userDao.updatePerfil(perfil, (err, repUp) => {
+    //         resp.status(200).send("ok");
+    //     });
+    // });
 };

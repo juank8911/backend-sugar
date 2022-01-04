@@ -285,34 +285,4 @@ UserDao.updatePerfil = (perfil, callback) => {
     }
 };
 
-UserDao.userData = (req, callback) => {
-    var token =
-        req.body.token || req.query.token || req.headers["x-access-token"];
-    if (token) {
-        jwt.verify(token, config.jwt_secreto, (err, decoded) => {
-            if (err) callback(null, err);
-            if (decoded) callback(null, decoded);
-        });
-    }
-};
-UserDao.validaAdmin = (req, res, next) => {
-    var token =
-        req.body.token || req.query.token || req.headers["x-access-token"];
-    console.log("valida Admin");
-    console.log(token);
-    if (token) {
-        jwt.verify(token, config.jwt_secreto, (err, decoded) => {
-            if (err) {
-                // console.log(err);
-                return res.status(403).send({
-                    mensaje: "error al validar usuario, inicie sesion de nuevo",
-                });
-            }
-            req.decoded = decoded;
-            console.log(decoded);
-            next();
-        });
-    }
-};
-
 module.exports = UserDao;
