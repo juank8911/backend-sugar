@@ -37,53 +37,54 @@ console.log("configurando");
 //    });
 
 //Permisos CORS para acceso a la Api
-app.all("*", function (req, res, next) {
-  /**
-                   * Response settings
-                  // //  * @type {Object}
-                  //  */
-  var responseSettings = {
-    AccessControlAllowOrigin: req.headers.origin,
-    AccessControlAllowHeaders:
-      "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
-    AccessControlAllowMethods: "POST, GET, PUT, DELETE, OPTIONS",
-    AccessControlAllowCredentials: true,
-  };
+app.all("*", function(req, res, next) {
+    /**
+                     * Response settings
+                    // //  * @type {Object}
+                    //  */
+    var responseSettings = {
+        AccessControlAllowOrigin: req.headers.origin,
+        AccessControlAllowHeaders: "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
+        AccessControlAllowMethods: "POST, GET, PUT, DELETE, OPTIONS",
+        AccessControlAllowCredentials: true,
+    };
 
-  /**
-   * Headers
-   */
-  res.header(
-    "Access-Control-Allow-Credentials",
-    responseSettings.AccessControlAllowCredentials
-  );
-  res.header(
-    "Access-Control-Allow-Origin",
-    responseSettings.AccessControlAllowOrigin
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    req.headers["access-control-request-headers"]
-      ? req.headers["access-control-request-headers"]
-      : "x-requested-with"
-  );
-  res.header(
-    "Access-Control-Allow-Methods",
-    req.headers["access-control-request-method"]
-      ? req.headers["access-control-request-method"]
-      : responseSettings.AccessControlAllowMethods
-  );
-  if ("OPTIONS" == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
+    /**
+     * Headers
+     */
+    res.header(
+        "Access-Control-Allow-Credentials",
+        responseSettings.AccessControlAllowCredentials
+    );
+    res.header(
+        "Access-Control-Allow-Origin",
+        responseSettings.AccessControlAllowOrigin
+    );
+    res.header(
+        "Access-Control-Allow-Headers",
+        req.headers["access-control-request-headers"] ?
+        req.headers["access-control-request-headers"] :
+        "x-requested-with"
+    );
+    res.header(
+        "Access-Control-Allow-Methods",
+        req.headers["access-control-request-method"] ?
+        req.headers["access-control-request-method"] :
+        responseSettings.AccessControlAllowMethods
+    );
+    if ("OPTIONS" == req.method) {
+        res.send(200);
+    } else {
+        next();
+    }
 });
 
 let rutas = express.Router();
 //rutas de el servidor
 //rutas.route('/login').post(ses.login);
 require("./routes/userRoutes")(app);
+require("./routes/perfilRoutes")(app);
+require("./routes/settingsRoutes")(app);
 // require('./routes/pruebasRoutes')(app);
 // require('./routes/comentRoutes')(app);
 // require('./routes/medicoRoutes')(app);
@@ -119,25 +120,25 @@ require("./routes/userRoutes")(app);
 //app.use(rutas);
 
 const server = app.listen(app.get("port"), () => {
-  console.log("cofigurano puerto");
-  console.log("server on port", config.puerto);
+    console.log("cofigurano puerto");
+    console.log("server on port", config.puerto);
 });
 
 const io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
-  console.log("new User Connected");
+    console.log("new User Connected");
 
-  socket.username = "anonimo"; //cargar nonbe de usuario;
+    socket.username = "anonimo"; //cargar nonbe de usuario;
 
-  socket.on("new_message", (data) => {
-    io.soket.emit("new message", {
-      message: data.massage,
-      username: socket.username,
+    socket.on("new_message", (data) => {
+        io.soket.emit("new message", {
+            message: data.massage,
+            username: socket.username,
+        });
     });
-  });
 
-  socket.on("typing", (data) => {
-    socket.broadcast.emit("typing", { username: socket.username });
-  });
+    socket.on("typing", (data) => {
+        socket.broadcast.emit("typing", { username: socket.username });
+    });
 });

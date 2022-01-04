@@ -1,33 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PerfilSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
-    identification: {
-        type: Number,
-        unique: true,
-        required: true
-    },
-    altrura: Number,
-    ojos: {
+    height: {
         type: String,
-        required: true
-    },
-    Contextura: {
-        type: Number,
         unique: true,
-        required: true
+        required: true,
     },
-    User: {
-        type: Number,
-        ref: 'User'
+    eyes: {
+        type: String,
+        required: true,
+    },
+    Contex: {
+        type: String,
+        required: true,
+    },
+    gender: {
+        type: String,
+        require: true,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    about: {
+        type: String,
     },
     created: {
         type: Date,
-        default: Date.now
-    }
-
+        default: Date.now,
+    },
 });
 
-const perfil = mongoose.model('Perfil', PerfilSchema);
+const perfil = mongoose.model("Perfil", PerfilSchema);
 
 module.exports = perfil;
