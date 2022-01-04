@@ -22,7 +22,7 @@ UserDao.registroMember = (register, callback) => {
                 console.log("Error save");
                 callback(null, { err: err, res: "false" });
             }
-            // newUser.member = memRes._id;
+            newUser.member = newMemb._id;
             console.log("usuario registrado con exito.");
             newUser.save(function(err, usuRes) {
                 if (err) {
