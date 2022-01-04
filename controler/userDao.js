@@ -230,7 +230,7 @@ UserDao.login = (login, callback) => {
                                         throw err;
                                     } else {
                                         perfDao.getPerfil(usuar, (errper, retpre) => {
-                                            if (err) throw err;
+                                            if (errper) throw errper;
                                             else {
                                                 console.log("settings despues de get" + sett);
                                                 setting = sett;
@@ -246,13 +246,14 @@ UserDao.login = (login, callback) => {
                                                     perfil: retpre,
                                                 };
 
-                                                jwtDao.generateTokenUser(usuar, (errtk, token) => {
-                                                    if (errtk) throw errtk;
-                                                    else {
-                                                        callback(null, { res: true, token: token });
-                                                    }
-                                                });
-                                                // jwt.sign(user, config.jwt_secreto);
+                                                // jwtDao.generateTokenUser(usuar, (errtk, token) => {
+                                                //     if (errtk) throw errtk;
+                                                //     else {
+                                                //         callback(null, { res: true, token: token });
+                                                //     }
+                                                // });
+                                                var token = jwt.sign(user, config.jwt_secreto);
+                                                callback(null, { res: true, token: token });
                                             }
                                         });
                                     }
@@ -283,6 +284,17 @@ UserDao.updatePerfil = (perfil, callback) => {
     if (updtPerf.findOne({ identficacion: perfil.identification })) {} else {
         updtPerf.save();
     }
+};
+
+UserDao.darPerfil = (usu, callback) => {
+    perfModel.findOne({ user: usu._id }, (err, perfil) => {
+        if (err) throw err;
+        else {
+            console.log("perfil/////////////////////////////////////");
+            console.log(perfil);
+            callback(null, perfil);
+        }
+    });
 };
 
 module.exports = UserDao;

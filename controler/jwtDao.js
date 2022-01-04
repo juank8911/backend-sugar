@@ -1,6 +1,7 @@
 const config = require("../config");
 const jwt = require("jsonwebtoken");
 const settDao = require("../controler/settingsDao");
+const userDao = require("../controler/userDao");
 const perfDao = require("../controler/perfilDao");
 const memberModel = require("../schemas/memberSchema");
 
@@ -17,7 +18,8 @@ jwtDao.generateTokenUser = (usuar, callback) => {
                 else {
                     // console.log("settings " + setting);
                     if (usuar.valSession == 1) lock = false;
-                    perfDao.getPerfil(usuar, (err, retpre) => {
+                    userDao.darPerfil(usuar, (err, retpre) => {
+                        // perfDao.getPerfil(usuar, (err, retpre) => {
                         if (err) throw err;
                         else {
                             // console.log("perfil " + retpre);

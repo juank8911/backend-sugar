@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const perfilModel = require("../schemas/perfilSchema");
+const userModel = require("../schemas/UserSchema");
+const jwtDao = require("./jwtDao");
 
 let perfilDao = {};
 
@@ -18,7 +20,15 @@ perfilDao.creaPerfil = (perf, callback) => {
     newPerf.save((err, rest) => {
         if (err) throw err;
         else {
-            callback(null, rest);
+            userModel.findById(newPerf.user, (err, usr) => {
+                console.log(usr);
+                jwtDao.generateTokenUser(usr, (errtk, token) => {
+                    if (err) throw errtk;
+                    else {
+                        callback(null, token);
+                    }
+                });
+            });
         }
     });
 };

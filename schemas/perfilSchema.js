@@ -2,24 +2,30 @@ const mongoose = require("mongoose");
 
 const PerfilSchema = new mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
+    job: {
+        type: String,
+    },
+    business: {
+        type: String,
+    },
+    school: {
+        type: String,
+    },
     height: {
         type: String,
-        required: true,
     },
     eyes: {
         type: String,
-        required: true,
     },
     contex: {
         type: String,
-        required: true,
     },
     gender: {
         type: String,
-        require: true,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        unique: true,
         ref: "User",
     },
     about: {
