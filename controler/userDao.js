@@ -132,26 +132,35 @@ UserDao.activa = (act, callback) => {
                 .then((result) => {
                     console.log("usuario actualizado");
                     var lock = false;
-                    console.log(usua.member);
-                    MemModel.findOne({ identification: usua.member }, (err, memb) => {
-                        console.log("memModel find");
-                        console.log(memb);
-                        if (err) {
-                            throw err;
-                        }
-                        if (memb) {
-                            var user = {
-                                usu: usua.email,
-                                usernam: usua.namUsu,
-                                name: memb.name,
-                                last: memb.last,
-                                member: usua.member,
-                                loked: lock,
-                            };
-                            var token = jwt.sign(user, config.jwt_secreto);
-                            callback(null, { res: true, token: token });
+                    console.log(usua);
+                    var data = { usr: usua };
+                    jwtDao.generateTokenUser(data, (errtk, token) => {
+                        if (errtk) {
+                            callback(null, errtk);
+                        } else {
+                            var ans = { res: true, token: token };
+                            callback(null, ans);
                         }
                     });
+                    // MemModel.findOne({ identification: usua.member }, (err, memb) => {
+                    //     console.log("memModel find");
+                    //     console.log(memb);
+                    //     if (err) {
+                    //         throw err;
+                    //     }
+                    //     if (memb) {
+                    //         var user = {
+                    //             usu: usua.email,
+                    //             usernam: usua.namUsu,
+                    //             name: memb.name,
+                    //             last: memb.last,
+                    //             member: usua.member,
+                    //             loked: lock,
+                    //         };
+                    //         var token = jwt.sign(user, config.jwt_secreto);
+                    //         callback(null, { res: true, token: token });
+                    //     }
+                    // });
                 });
         }
     });
@@ -233,7 +242,8 @@ UserDao.login = (login, callback) => {
                                         jwtDao.generateTokenUser(data, (errtk, token) => {
                                             if (errtk) throw errtk;
                                             else {
-                                                callback(null, token);
+                                                var ans = { res: true, token: token };
+                                                callback(null, ans);
                                                 // if (retpre == null || retpre == "null") {
                                                 //     setting = sett;
                                                 //     var user = {
