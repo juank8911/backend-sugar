@@ -32,6 +32,9 @@ jwtDao.generateTokenUser = (data, callback) => {
                         if (errpr) {
                             throw errpr;
                         } else {
+                            if (perfs == null) {
+                                perds = "null";
+                            }
                             var user = {
                                 usu: usuar.email,
                                 user: usuar,
