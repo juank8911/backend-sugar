@@ -6,8 +6,8 @@ const jwtDao = require("./jwtDao");
 let perfilDao = {};
 
 perfilDao.creaPerfil = (perf, callback) => {
-    console.log("dentro de crear perfil");
-    console.log(perf);
+    // console.log("dentro de crear perfil");
+    // console.log(perf);
     let newPerf = new perfilModel({
         job: perf.job,
         business: perf.business,
@@ -26,9 +26,9 @@ perfilDao.creaPerfil = (perf, callback) => {
             userModel.findById(newPerf.user, (err, usr) => {
                 jwtDao.generateTokenUser({ usr: usr, perfil: newPerf },
                     (errtk, token) => {
-                        console.log("error de token");
-                        console.log(errtk);
-                        console.log(token);
+                        // console.log("error de token");
+                        // console.log(errtk);
+                        // console.log(token);
                         if (err) throw errtk;
                         else {
                             callback(null, token);
@@ -40,14 +40,26 @@ perfilDao.creaPerfil = (perf, callback) => {
     });
 };
 
-perfilDao.getPerfil = (idUs, callback) => {
-    console.log(idUs);
-    perfilModel.findOne({ user: idUs._id }, (err, perfil) => {
-        if (err) throw err;
-        else {
-            console.log("perfil/////////////////////////////////////");
-            console.log(perfil);
-            callback(null, perfil);
+perfilDao.update = (perfil, callback) => {
+    // console.log("/////////////////////// update perfil");
+    // console.log(perfil.id);
+
+    perfilModel.findByIdAndUpdate(perfil.id, perfil, (err, updt) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log(updt);
+            userModel.findById(updt.user, (err, usr) => {
+                jwtDao.generateTokenUser({ usr: usr }, (errtk, token) => {
+                    // console.log("error de token");
+                    // console.log(errtk);
+                    // console.log(token);
+                    if (err) throw errtk;
+                    else {
+                        callback(null, token);
+                    }
+                });
+            });
         }
     });
 };
