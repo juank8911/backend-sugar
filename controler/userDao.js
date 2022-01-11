@@ -230,28 +230,40 @@ UserDao.login = (login, callback) => {
                                         throw err;
                                     } else {
                                         perfDao.getPerfil(usuar, (errper, retpre) => {
+                                            console.log(
+                                                "//////////////////////////////////Perfil Login " +
+                                                retpre
+                                            );
                                             if (errper) throw errper;
                                             else {
-                                                console.log("settings despues de get" + sett);
-                                                setting = sett;
-                                                var user = {
-                                                    usu: usuar.email,
-                                                    user: usuar,
-                                                    usernam: usuar.namUsu,
-                                                    name: memb.name,
-                                                    last: memb.last,
-                                                    member: memb,
-                                                    loked: lock,
-                                                    settings: setting,
-                                                    perfil: retpre,
-                                                };
+                                                if (retpre == null || retpre == "null") {
+                                                    setting = sett;
+                                                    var user = {
+                                                        usu: usuar.email,
+                                                        user: usuar,
+                                                        usernam: usuar.namUsu,
+                                                        name: memb.name,
+                                                        last: memb.last,
+                                                        member: memb,
+                                                        loked: lock,
+                                                        settings: setting,
+                                                        perfil: "null",
+                                                    };
+                                                } else {
+                                                    setting = sett;
+                                                    var user = {
+                                                        usu: usuar.email,
+                                                        user: usuar,
+                                                        usernam: usuar.namUsu,
+                                                        name: memb.name,
+                                                        last: memb.last,
+                                                        member: memb,
+                                                        loked: lock,
+                                                        settings: setting,
+                                                        perfil: retpre,
+                                                    };
+                                                }
 
-                                                // jwtDao.generateTokenUser(usuar, (errtk, token) => {
-                                                //     if (errtk) throw errtk;
-                                                //     else {
-                                                //         callback(null, { res: true, token: token });
-                                                //     }
-                                                // });
                                                 var token = jwt.sign(user, config.jwt_secreto);
                                                 callback(null, { res: true, token: token });
                                             }
