@@ -286,6 +286,12 @@ UserDao.updatePerfil = (perfil, callback) => {
     }
 };
 
+UserDao.verPefil = async(usu, callback) => {
+    console.log("var perfil de usuario");
+    console.log("var perfil de usuario");
+    callback(null, usu);
+};
+
 UserDao.darPerfil = (usu, callback) => {
     perfModel.findOne({ user: usu._id }, (err, perfil) => {
         if (err) throw err;

@@ -9,6 +9,9 @@ perfilDao.creaPerfil = (perf, callback) => {
     console.log("dentro de crear perfil");
     console.log(perf);
     let newPerf = new perfilModel({
+        job: perf.job,
+        business: perf.business,
+        school: perf.school,
         height: perf.height + '"',
         eyes: perf.eyes,
         contex: perf.contex,
@@ -16,18 +19,22 @@ perfilDao.creaPerfil = (perf, callback) => {
         user: new ObjectId(perf.user),
         about: perf.about,
     });
-    console.log(newPerf);
+    // console.log(newPerf);
     newPerf.save((err, rest) => {
         if (err) throw err;
         else {
             userModel.findById(newPerf.user, (err, usr) => {
-                console.log(usr);
-                jwtDao.generateTokenUser(usr, (errtk, token) => {
-                    if (err) throw errtk;
-                    else {
-                        callback(null, token);
+                jwtDao.generateTokenUser({ usr: usr, perfil: newPerf },
+                    (errtk, token) => {
+                        console.log("error de token");
+                        console.log(errtk);
+                        console.log(token);
+                        if (err) throw errtk;
+                        else {
+                            callback(null, token);
+                        }
                     }
-                });
+                );
             });
         }
     });

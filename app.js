@@ -39,9 +39,9 @@ console.log("configurando");
 //Permisos CORS para acceso a la Api
 app.all("*", function(req, res, next) {
     /**
-                     * Response settings
-                    // //  * @type {Object}
-                    //  */
+                       * Response settings
+                      // //  * @type {Object}
+                      //  */
     var responseSettings = {
         AccessControlAllowOrigin: req.headers.origin,
         AccessControlAllowHeaders: "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
